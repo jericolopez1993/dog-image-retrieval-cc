@@ -15,7 +15,7 @@ consumer.subscriptions.create("DogSearchChannel", {
       console.log(data.image)
       let searchResults = document.getElementById('search-results');
       let newResults = document.createElement('div');
-      newResults.innerHTML = `<h2>${data.breed} Images</h2><img src="${data.image}" alt="${data.breed}"/>`;
+      newResults.innerHTML = `<h2 class="text-lg font-extrabold">${data.breed} Images</h2><img class="mx-auto" src="${data.image}" alt="${data.breed}"/>`;
       searchResults.innerHTML = '';
       searchResults.appendChild(newResults);
     }
