@@ -1,0 +1,17 @@
+<div class="block w-full text-center">
+  <h1 class="text-2xl">Dog Breed Search</h1>
+</div>
+
+<%= form_tag(method: 'post', remote: true, html: {class: 'max-w-sm'}) do %>
+  <%= label_tag 'breed', 'Select a breed:', class: "block mb-2 text-sm font-medium text-gray-900 dark:text-white" %>
+  <div class="flex">
+    <span class="inline-flex items-center px-3 text-sm text-gray-900 bg-gray-200 border border-e-0 border-gray-300 rounded-s-md dark:bg-gray-600 dark:text-gray-400 dark:border-gray-600">
+      <i class="fa-solid fa-paw w-4 h-4 text-gray-500 dark:text-gray-400"></i>
+    </span>
+    <%= text_field_tag 'breed', nil, placeholder: 'Select a breed', class: "rounded-none rounded-e-lg bg-gray-50 border border-gray-300 text-gray-900 focus:ring-blue-500 focus:border-blue-500 block flex-1 min-w-0 w-full text-sm p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" %>
+  </div>
+  <%= submit_tag 'Search', class: "mt-2 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" %>
+<% end %>
+
+<div id="search-results">
+</div>

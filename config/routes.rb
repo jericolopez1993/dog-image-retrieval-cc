@@ -1,6 +1,11 @@
 Rails.application.routes.draw do
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
+  mount ActionCable.server => '/cable'
 
+  get 'dogs/index'
+  post 'dogs/index'
+  get 'dogs/search'
+  root 'dogs#index'
   # Defines the root path route ("/")
   # root "articles#index"
 end
