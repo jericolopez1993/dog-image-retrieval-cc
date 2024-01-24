@@ -11,6 +11,8 @@ consumer.subscriptions.create("DogSearchChannel", {
 
   received(data) {
     if (data.breed && data.image) {
+      document.getElementById('random-dogs-container').classList.add('hidden');
+      
       let searchResults = document.getElementById('search-results');
       let newResults = document.createElement('div');
       let resultHtml = `<h2 class="text-lg font-extrabold mb-2 capitalize">${data.breed} Images</h2>`;

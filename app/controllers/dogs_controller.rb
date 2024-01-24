@@ -18,6 +18,8 @@ class DogsController < ApplicationController
 
       broadcast_search_results(breed, @image, is_found)
       render nothing: true, status: :ok, content_type: "text/html"
+    else
+      @dogs = get_random_breed_dogs
     end
   end
 
@@ -29,6 +31,11 @@ class DogsController < ApplicationController
 
   def broadcast_search_results(breed, image, is_found)
     ActionCable.server.broadcast(@dog_search_channel, {breed: breed, image: image, is_found: is_found})
+  end
+
+  def get_random_breed_dogs(limit=12)
+    response = RestClient.get "https://dog.ceo/api/breeds/image/random/#{limit}"
+    JSON.parse(response.body)['message']
   end
 
   def get_breed_image(breed)
