@@ -11,11 +11,18 @@ consumer.subscriptions.create("DogSearchChannel", {
 
   received(data) {
     if (data.breed && data.image) {
-      console.log(data.breed)
-      console.log(data.image)
       let searchResults = document.getElementById('search-results');
       let newResults = document.createElement('div');
-      newResults.innerHTML = `<h2 class="text-lg font-extrabold">${data.breed} Images</h2><img class="mx-auto" src="${data.image}" alt="${data.breed}"/>`;
+      let resultHtml = `<h2 class="text-lg font-extrabold mb-2 capitalize">${data.breed} Images</h2>`;
+
+      if (!data.is_found) {
+        resultHtml = `
+          <h2 class="text-lg text-gray-500 mb-4">No <span class="font-extrabold capitalize underline">${data.breed}</span> breed image found</h2>
+          <h2 class="text-lg font-extrabold mb-2">But here a cute dog for you <i class="fa-regular fa-face-smile-beam"></i></h2>
+        `;
+      }
+      resultHtml += `<img class="mx-auto" src="${data.image}" alt="${data.breed}"/>`;
+      newResults.innerHTML = resultHtml;
       searchResults.innerHTML = '';
       searchResults.appendChild(newResults);
     }

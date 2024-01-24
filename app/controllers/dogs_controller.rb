@@ -4,11 +4,19 @@ class DogsController < ApplicationController
   def index
     if request.post?
       breed = params[:breed]
-      @image = get_breed_image(breed)
+      is_found = true
+      @image = nil
+
+      begin
+        @image = get_breed_image(breed)
+      rescue => e
+        @image = fail_rescue_image
+        is_found = false
+      end
 
       puts @image
 
-      broadcast_search_results(breed, @image)
+      broadcast_search_results(breed, @image, is_found)
       render nothing: true, status: :ok, content_type: "text/html"
     end
   end
@@ -19,13 +27,17 @@ class DogsController < ApplicationController
     @dog_search_channel = 'dog_search_channel'
   end
 
-  def broadcast_search_results(breed, image)
-    ActionCable.server.broadcast(@dog_search_channel, {breed: breed, image: image})
+  def broadcast_search_results(breed, image, is_found)
+    ActionCable.server.broadcast(@dog_search_channel, {breed: breed, image: image, is_found: is_found})
   end
 
   def get_breed_image(breed)
     response = RestClient.get "https://dog.ceo/api/breed/#{breed}/images/random"
-    images = JSON.parse(response.body)['message']
-    images
+    JSON.parse(response.body)['message']
+  end
+
+  def fail_rescue_image
+    response = RestClient.get "https://dog.ceo/api/breeds/image/random"
+    JSON.parse(response.body)['message']
   end
 end
